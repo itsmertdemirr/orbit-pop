@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#081120" />
+  <meta name="description" content="Orbit Pop — kısa oturumlar için hızlı, renkli ve bağımlılık yaratan web arcade oyunu." />
+  <meta name="author" content="Mert Demir" />
+  <title>Orbit Pop — Web Arcade</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <button class="brand" id="brandButton" aria-label="Ana menüye dön">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>
+          <strong>ORBIT POP</strong>
+          <small>NEON ARCADE</small>
+        </span>
+      </button>
+      <nav class="top-actions" aria-label="Hızlı işlemler">
+        <button class="icon-button" id="leaderboardButton" aria-label="Skor tablosu" title="Skor tablosu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 21h10M12 17v4M5 4h14v3a7 7 0 0 1-14 0V4Zm0 2H2v1a5 5 0 0 0 5 5M19 6h3v1a5 5 0 0 1-5 5"/></svg>
+        </button>
+        <button class="icon-button" id="settingsButton" aria-label="Ayarlar" title="Ayarlar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5ZM19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.1A1.7 1.7 0 0 0 4.7 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.1a1.7 1.7 0 0 0 1.1 1.6 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.14.36.35.7.6 1 .28.3.66.46 1.1.4h.1v4h-.1A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+        </button>
+        <button class="pill-button compact" id="installButton" hidden>Uygulamayı yükle</button>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <section class="screen home-screen active" id="homeScreen" aria-labelledby="homeTitle">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> Hızlı oyna. Ustalaş. Rekoru kır.</div>
+          <h1 id="homeTitle">Rengi yakala,<br><em>yörüngeyi bozma.</em></h1>
+          <p>Tek dokunuşla oynanan, kısa molalar için tasarlanmış modern bir refleks oyunu. Doğru renge ateş et, kombonu büyüt ve hızlanan yörüngelere meydan oku.</p>
+          <div class="hero-actions">
+            <button class="primary-button" id="quickPlayButton">
+              <span class="play-icon">▶</span>
+              Hemen Oyna
+            </button>
+            <button class="secondary-button" id="modesButton">Oyun Modları</button>
+          </div>
+          <div class="hero-stats" aria-label="Oyuncu istatistikleri">
+            <div><strong id="homeBestScore">0</strong><span>En iyi skor</span></div>
+            <div><strong id="homeGamesPlayed">0</strong><span>Toplam oyun</span></div>
+            <div><strong id="homeBestCombo">0×</strong><span>En iyi kombo</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit-stage">
+            <div class="orbit orbit-a"><span class="orb cyan"></span></div>
+            <div class="orbit orbit-b"><span class="orb violet"></span></div>
+            <div class="orbit orbit-c"><span class="orb coral"></span></div>
+            <div class="core-preview"><span></span></div>
+            <div class="target-line"></div>
+            <div class="score-float">+40</div>
+          </div>
+          <div class="daily-card">
+            <div class="daily-icon">✦</div>
+            <div><span>GÜNLÜK MEYDAN OKUMA</span><strong id="dailyLabel">Bugünün yörüngesi hazır</strong></div>
+            <button id="dailyPlayButton" aria-label="Günlük meydan okumayı oyna">→</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen modes-screen" id="modesScreen" aria-labelledby="modesTitle">
+        <div class="section-heading">
+          <button class="back-button" data-back="homeScreen">←</button>
+          <div>
+            <span class="eyebrow"><span></span> Oyun modunu seç</span>
+            <h2 id="modesTitle">Her mola için bir tempo</h2>
+          </div>
+        </div>
+        <div class="mode-grid">
+          <article class="mode-card featured" data-mode="classic" tabindex="0">
+            <div class="mode-art classic-art"><i></i><i></i><i></i></div>
+            <div class="mode-content"><span class="mode-tag">ÖNERİLEN</span><h3>Klasik</h3><p>3 canla mümkün olan en yüksek skora ulaş. Her başarılı atış oyunu hızlandırır.</p><div class="mode-meta"><span>♥ 3 can</span><span>∞ Süre</span></div></div>
+            <button class="card-play" data-mode="classic">Oyna</button>
+          </article>
+          <article class="mode-card" data-mode="timed" tabindex="0">
+            <div class="mode-art timed-art"><span>60</span></div>
+            <div class="mode-content"><h3>60 Saniye</h3><p>Bir dakika içinde hızını ve doğruluğunu kanıtla. Her saniye önemli.</p><div class="mode-meta"><span>⏱ 60 sn</span><span>∞ Can</span></div></div>
+            <button class="card-play" data-mode="timed">Oyna</button>
+          </article>
+          <article class="mode-card" data-mode="daily" tabindex="0">
+            <div class="mode-art daily-art"><span>✦</span></div>
+            <div class="mode-content"><h3>Günlük Görev</h3><p>Her oyuncu için aynı düzen. Bugünün skorunu kaydet ve yarın yeniden gel.</p><div class="mode-meta"><span>☀ Günlük</span><span>45 sn</span></div></div>
+            <button class="card-play" data-mode="daily">Oyna</button>
+          </article>
+          <article class="mode-card" data-mode="zen" tabindex="0">
+            <div class="mode-art zen-art"><i></i><i></i></div>
+            <div class="mode-content"><h3>Zen</h3><p>Can ve süre baskısı olmadan rahatla. Yavaş tempo, yumuşak efektler.</p><div class="mode-meta"><span>☁ Sınırsız</span><span>♫ Sakin</span></div></div>
+            <button class="card-play" data-mode="zen">Oyna</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen game-screen" id="gameScreen" aria-label="Oyun alanı">
+        <div class="game-layout">
+          <aside class="hud-panel left-hud">
+            <button class="hud-icon" id="pauseButton" aria-label="Oyunu duraklat">Ⅱ</button>
+            <div class="hud-stat"><span>SKOR</span><strong id="scoreValue">0</strong></div>
+            <div class="hud-stat combo"><span>KOMBO</span><strong id="comboValue">0×</strong><div class="combo-bar"><i id="comboFill"></i></div></div>
+          </aside>
+
+          <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="gameCanvas" aria-label="Orbit Pop oyun alanı"></canvas>
+            <div class="game-message" id="gameMessage" aria-live="polite"></div>
+            <div class="power-toast" id="powerToast" aria-live="polite"></div>
+          </div>
+
+          <aside class="hud-panel right-hud">
+            <div class="hud-stat"><span>MOD</span><strong id="modeValue">KLASİK</strong></div>
+            <div class="hud-stat" id="timerStat"><span>SÜRE</span><strong id="timerValue">∞</strong></div>
+            <div class="lives" id="livesValue" aria-label="Kalan canlar"></div>
+          </aside>
+        </div>
+        <div class="mobile-hud">
+          <button class="hud-icon" id="mobilePauseButton" aria-label="Oyunu duraklat">Ⅱ</button>
+          <div><span>SKOR</span><strong id="mobileScoreValue">0</strong></div>
+          <div><span>KOMBO</span><strong id="mobileComboValue">0×</strong></div>
+          <div><span>SÜRE</span><strong id="mobileTimerValue">∞</strong></div>
+        </div>
+        <p class="control-hint"><kbd>BOŞLUK</kbd> veya ekrana dokunarak ateş et</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>© 2026 Orbit Pop</span>
+      <span>Geliştirici: <strong>Mert Demir</strong></span>
+      <button id="creditsButton">Künye</button>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+  <section class="modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" hidden>
+    <div class="modal-header"><div><span class="eyebrow"><span></span> Kişiselleştir</span><h2 id="settingsTitle">Ayarlar</h2></div><button class="modal-close" data-close-modal>×</button></div>
+    <div class="settings-list">
+      <label class="setting-row"><span><strong>Ses efektleri</strong><small>Vuruş ve bildirim sesleri</small></span><input type="checkbox" id="soundToggle" checked><i></i></label>
+      <label class="setting-row"><span><strong>Arka plan ambiyansı</strong><small>Oyun sırasında hafif atmosfer</small></span><input type="checkbox" id="musicToggle" checked><i></i></label>
+      <label class="setting-row"><span><strong>Azaltılmış hareket</strong><small>Parçacık ve ekran hareketlerini azaltır</small></span><input type="checkbox" id="motionToggle"><i></i></label>
+      <label class="setting-row"><span><strong>Renk körlüğü paleti</strong><small>Renkleri daha kolay ayırt edilir yapar</small></span><input type="checkbox" id="colorblindToggle"><i></i></label>
+      <label class="setting-select"><span><strong>Grafik kalitesi</strong><small>Düşük güçlü cihazlarda performansı artırır</small></span><select id="qualitySelect"><option value="high">Yüksek</option><option value="medium">Orta</option><option value="low">Düşük</option></select></label>
+      <label class="setting-select"><span><strong>Dil</strong><small>Arayüz dili</small></span><select id="languageSelect"><option value="tr">Türkçe</option><option value="en">English</option></select></label>
+    </div>
+    <div class="modal-actions"><button class="danger-link" id="resetDataButton">Oyun verilerini sıfırla</button><button class="primary-button small" data-close-modal>Tamam</button></div>
+  </section>
+
+  <section class="modal wide" id="leaderboardModal" role="dialog" aria-modal="true" aria-labelledby="leaderboardTitle" hidden>
+    <div class="modal-header"><div><span class="eyebrow"><span></span> Yerel sıralama</span><h2 id="leaderboardTitle">En İyi Skorlar</h2></div><button class="modal-close" data-close-modal>×</button></div>
+    <div class="tabs" id="leaderboardTabs"><button class="active" data-board="classic">Klasik</button><button data-board="timed">60 Saniye</button><button data-board="daily">Günlük</button><button data-board="zen">Zen</button></div>
+    <div class="leaderboard-list" id="leaderboardList"></div>
+  </section>
+
+  <section class="modal" id="pauseModal" role="dialog" aria-modal="true" aria-labelledby="pauseTitle" hidden>
+    <div class="pause-visual"><span>Ⅱ</span></div>
+    <div class="centered"><span class="eyebrow"><span></span> Oyun duraklatıldı</span><h2 id="pauseTitle">Nefesini topla.</h2><p>Yörüngeler seni bekliyor.</p></div>
+    <div class="stacked-actions"><button class="primary-button" id="resumeButton">Devam Et</button><button class="secondary-button" id="restartButton">Yeniden Başlat</button><button class="text-button" id="quitButton">Ana Menüye Dön</button></div>
+  </section>
+
+  <section class="modal result-modal" id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
+    <div class="result-badge" id="resultBadge">YENİ REKOR</div>
+    <div class="centered"><span class="eyebrow"><span></span> Tur tamamlandı</span><h2 id="resultTitle">Harika ritim!</h2></div>
+    <div class="result-score"><span>SKOR</span><strong id="finalScore">0</strong><small id="scoreDelta"></small></div>
+    <div class="result-grid"><div><span>En iyi kombo</span><strong id="finalCombo">0×</strong></div><div><span>Doğruluk</span><strong id="finalAccuracy">0%</strong></div><div><span>Süre</span><strong id="finalDuration">0:00</strong></div></div>
+    <div class="achievement-pop" id="achievementPop" hidden><span>🏆</span><div><small>BAŞARIM AÇILDI</small><strong id="achievementText">İlk Kıvılcım</strong></div></div>
+    <div class="stacked-actions"><button class="primary-button" id="playAgainButton">Tekrar Oyna</button><button class="secondary-button" id="shareScoreButton">Skoru Paylaş</button><button class="text-button" id="resultHomeButton">Ana Menü</button></div>
+  </section>
+
+  <section class="modal tutorial-modal" id="tutorialModal" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle" hidden>
+    <div class="tutorial-demo" aria-hidden="true"><div class="mini-orbit"><i class="mini-target"></i><span class="mini-core"></span><b></b></div></div>
+    <div class="centered"><span class="eyebrow"><span></span> 10 saniyede öğren</span><h2 id="tutorialTitle">Doğru renge ateş et</h2><p>Merkezdeki rengin aynısını yörüngede bul. Nişan çizgisi hedefe geldiğinde dokun veya boşluk tuşuna bas.</p></div>
+    <div class="tutorial-steps"><span><b>1</b> Rengi kontrol et</span><span><b>2</b> Hedefi bekle</span><span><b>3</b> Ateş et</span></div>
+    <button class="primary-button" id="tutorialStartButton">Anladım, Başlat</button>
+  </section>
+
+  <section class="modal" id="creditsModal" role="dialog" aria-modal="true" aria-labelledby="creditsTitle" hidden>
+    <div class="modal-header"><div><span class="eyebrow"><span></span> Proje bilgisi</span><h2 id="creditsTitle">Orbit Pop</h2></div><button class="modal-close" data-close-modal>×</button></div>
+    <div class="credits-content"><div class="credits-logo"><span class="brand-mark large"><i></i><i></i><i></i></span></div><p>Kısa molaları renkli bir rekabete dönüştüren modern web arcade deneyimi.</p><dl><div><dt>Geliştirici</dt><dd>Mert Demir</dd></div><div><dt>Sürüm</dt><dd>1.0.0</dd></div><div><dt>Teknoloji</dt><dd>HTML5 Canvas · CSS · JavaScript · PWA</dd></div></dl></div>
+  </section>
+
+  <div class="toast" id="appToast" role="status" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
